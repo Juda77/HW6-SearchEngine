@@ -10,9 +10,9 @@ public class MyMiniSearchEngine {
     // default solution. OK to change.
     // do not change the signature of index()
 	
-	//array where each row's index is the document number and the rows themselves will store the indexes at that document which the key word is located
-	//private List[][] locationsInDocs;
-    private Map<String, List[]> indexes = new HashMap<>();
+	//map of strings/ words with their documents and locations as the values
+	//the inner map will be a map of integers(document ids) with values of arraylists which contain the word's locations within that doc
+    private Map<String, Map<Integer, List<Integer>>> indexes = new HashMap<>();
 
 
     // disable default constructor
@@ -29,10 +29,10 @@ public class MyMiniSearchEngine {
     	//homework
     	
     	//loop through each document(String) in the list
-    	for (int i = 0; i < texts.size(); i++) {
+    	for (int documentID = 0; documentID < texts.size(); documentID++) {
     		
     		//get the current document
-    		String currentDocument = texts.get(i).toLowerCase();
+    		String currentDocument = texts.get(documentID).toLowerCase();
     		
     		Scanner scanCurrentDocument = new Scanner(currentDocument);
     		
@@ -45,34 +45,32 @@ public class MyMiniSearchEngine {
     			
     			//if the word isn't already in the map, add it
     			if (!indexes.containsKey(word)) {
-    				List[] locationsInDocs = new List[texts.size()]; //give our documents array the same amount of rows as the amount of documents
     				
-    				List locations = new ArrayList<Integer>();
+    				Map<Integer, List<Integer>> docIdAndLocations = new HashMap<>();
+    				List<Integer> locations = new ArrayList<>();
     				locations.add(index);
-    				locationsInDocs[i] = locations;
-    				indexes.put(word, locationsInDocs);
+    				
+    				docIdAndLocations.put(documentID, locations);
+    				indexes.put(word, docIdAndLocations);
+    				
+    				
     			} else { //the word is already in the map, so just add the location to the correct document(the correct array index)
     				
-    				//indexes.get(word) returns the array of documents/lists
-    				List[] locationsInDocs = indexes.get(word); 
+    				//The word may already be in the map, but make sure to only add
+    				//a new document id to our inner map if that document id isn't already added
+    				//so that we don't have duplicate doc ids in our map
+    				if (indexes.get(word).get(documentID) == null) {
+    					List<Integer> locations = new ArrayList<>();
+        				locations.add(index);
+    					indexes.get(word).put(documentID, locations);
+
+    					
+    				} else if (indexes.get(word).get(documentID) != null) {
+    					//if the docID is already present, just add the new location
+    					indexes.get(word).get(documentID).add(index);
+    					
     				
-    				//edit the location list so that the current index/location is added
-    				List<Integer> locations = locationsInDocs[i];
-    				
-    				//first check if the there was none of this word found at the current document 
-    				//if there wasn't then we need to make a new locations list for the current document index
-    				if (locations != null) {
-    					locations.add(index);
-    					locationsInDocs[i] = locations;	
-    					//put the edited array of locations back into the map
-    					indexes.put(word, locationsInDocs);
-    				} else {
-    					List locations2 = new ArrayList<Integer>();
-        				locations2.add(index);
-        				locationsInDocs[i] = locations2;
-        				indexes.put(word, locationsInDocs);
     				}
-    				
     			}
     			
     			index++;
@@ -87,7 +85,7 @@ public class MyMiniSearchEngine {
     // return an empty list if search() finds no match in all documents.
     public List<Integer> search(String keyPhrase) {
         // homework
-    	
+    	/*
     	List<List[]> locationsOfEachWord = new ArrayList<>(); //list which contains arrays of each word's locations
     	
     	//first get every array of lists/locations for each word in the keyPhrase
@@ -112,14 +110,15 @@ public class MyMiniSearchEngine {
     	}
     	
     	
+    	*/
     	
     	
     	
     	
     	
-    	List<Integer> locations = new ArrayList<>();//final solution
-    	
-    	
+
+    	Map locationsAsMap = indexes.get(keyPhrase);
+    	List<Integer> locations = new ArrayList<Integer>(locationsAsMap.keySet());//final solution
     	
     	
     	

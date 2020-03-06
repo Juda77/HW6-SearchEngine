@@ -26,13 +26,13 @@ public class MyMiniSearchEngineTest {
         
         
         List<Integer> result = engine.search("seattle");
-
         assertEquals(1, result.size());
 
         assertEquals(Integer.valueOf(4), result.get(0));
         
     }
 
+    /*
     @Test
     public void testTwoWord() {
         MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
@@ -58,7 +58,7 @@ public class MyMiniSearchEngineTest {
             assertEquals(List.of(4), result);
         }
     }
-
+*/
     @Test
     public void testFourWord() {
         // homework
