@@ -17,13 +17,12 @@ public class MyMiniSearchEngineTest {
                         "seattle rains hello abc world",
                         "sunday hello world fun"));
     }
+    
 
     @Test
     public void testOneWord() {
     	
         MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
-        
-        
         
         List<Integer> result = engine.search("seattle");
         assertEquals(1, result.size());
@@ -32,7 +31,7 @@ public class MyMiniSearchEngineTest {
         
     }
 
-    /*
+    
     @Test
     public void testTwoWord() {
         MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
@@ -43,6 +42,7 @@ public class MyMiniSearchEngineTest {
         assertEquals(List.of(0, 5), result);
     }
 
+    
     @Test
     public void testThreeWord() {
         MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
@@ -58,16 +58,37 @@ public class MyMiniSearchEngineTest {
             assertEquals(List.of(4), result);
         }
     }
-*/
+
     @Test
     public void testFourWord() {
-        // homework
-        assertTrue(false); // place holder
+    	// homework
+    	MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
+    
+        List<Integer> result = engine.search("rains hello abc world");
+
+        
+        assertEquals(1, result.size());
+        assertEquals(List.of(4), result);
     }
 
     @Test
     public void testWordNotFound() {
         // homework
-        assertTrue(false); // place holder
+    	MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
+        List<Integer> result = engine.search("rains seattle");
+        assertEquals(0, result.size()); 
     }
+    
+    //for good measure
+    @Test
+    public void testWordNotFound2() {
+        // homework
+    	MyMiniSearchEngine engine = new MyMiniSearchEngine(documents());
+        List<Integer> result = engine.search("rains hello abc hello");
+        assertEquals(0, result.size()); 
+    }
+    
+    
+    
+    
 }
