@@ -107,19 +107,25 @@ public class MyMiniSearchEngine {
     	
     	List<String> words = new ArrayList<>(); //also just have another structure containing the words
     	String currentWord = phraseParser.next().toLowerCase();
+    	
+    	//if the word is not contained in the map, then the whole phrase is not contained in any of the documents
+    	if (!indexes.containsKey(currentWord)) {
+    		return finalListOfDocumentIDs;
+    	}
     	documentIDs = new ArrayList<>(indexes.get(currentWord).keySet()); //grab the word's keys(docIDs and add them to the list)
     	words.add(currentWord);
-    	//if the word is not contained in the map, then the whole phrase is not contained in any of the documents
-		if (!indexes.containsKey(currentWord)) {
-			return null;
-		}
+    	
     	
 		
     	while (phraseParser.hasNext()){
     		
     		currentWord = phraseParser.next().toLowerCase();
-    		
+    		//if the word is not contained in the map, then the whole phrase is not contained in any of the documents
+        	if (!indexes.containsKey(currentWord)) {
+        		return finalListOfDocumentIDs;
+        	}
     		words.add(currentWord);
+        	
     		
     		//instead of having to loop through all the docIDs/keys to add them to a list,
     		//just take the keySet and add them to an arraylist of sets(list of one set)
